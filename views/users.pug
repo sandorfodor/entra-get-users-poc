@@ -1,0 +1,16 @@
+doctype html
+
+html(lang='en')
+  body
+    h3 Users in tenant
+    table.table.table-striped
+      tr
+        th ID
+        th Name
+        th Email
+
+      each u in users
+        tr
+          td= u.id
+          td= u.displayName
+          td= u.email

@@ -12,8 +12,13 @@ const clientApplication = createConfidentialClientApplication(
 );
 const app = express();
 app.use(session(config.sessionConfig));
-app.use(express.static("public"));
+app.set("view engine", "pug");
+app.set("views", "./views");
 const requestConfig = config.clientConfig.request;
+
+app.get("/", (req, res) => {
+  res.render("home");
+});
 
 app.get("/login", (req, res) => {
   if (req.query.code)
@@ -92,7 +97,7 @@ app.get("/redirect", async (req, res) => {
   );
 
   console.log("GRAPH RESPONSE", graphResponse.data);
-  res.send({ userData: graphResponse.data });
+  res.render("users", { users: graphResponse.data.userData.value });
 });
 
 app.listen(config.SERVER_PORT, () =>
