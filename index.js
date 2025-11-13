@@ -6,6 +6,14 @@ const url = require("url");
 require("dotenv").config();
 
 const SERVER_PORT = 3000;
+const scopes = [
+  "user.read",
+  "openid",
+  "profile",
+  "User.ReadWrite.All",
+  "Directory.ReadWrite.All",
+  "Application.ReadWrite.All",
+];
 const config = {
   authOptions: {
     clientId: process.env.AZURE_CLIENT_ID,
@@ -14,16 +22,16 @@ const config = {
   },
   request: {
     authCodeUrlParameters: {
-      scopes: ["user.read"],
+      scopes,
       redirectUri: "http://localhost:3000/redirect",
     },
     tokenRequest: {
       redirectUri: "http://localhost:3000/redirect",
-      scopes: ["user.read"],
+      scopes,
     },
   },
   resourceApi: {
-    endpoint: "https://graph.microsoft.com/v1.0/me",
+    endpoint: "https://graph.microsoft.com/v1.0/users",
   },
 };
 
@@ -115,10 +123,7 @@ const getTokenAuthCode = function (scenarioConfig, clientApplication, port) {
 
     console.log("request made to web API at: " + new Date().toString());
 
-    const graphResponse = await axios.get(
-      "https://graph.microsoft.com/v1.0/me",
-      options
-    );
+    const graphResponse = await axios.get(config.resourceApi.endpoint, options);
 
     console.log("GRAPH RESPONSE", graphResponse.data);
     res.send({ userData: graphResponse.data });
