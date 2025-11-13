@@ -12,9 +12,10 @@ const clientApplication = createConfidentialClientApplication(
 );
 const app = express();
 app.use(session(config.sessionConfig));
+app.use(express.static("public"));
 const requestConfig = config.clientConfig.request;
 
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
   if (req.query.code)
     return res.redirect(
       url.format({ pathname: "/redirect", query: req.query })
