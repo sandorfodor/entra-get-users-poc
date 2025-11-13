@@ -97,7 +97,7 @@ app.get("/redirect", async (req, res) => {
   );
 
   console.log("GRAPH RESPONSE", graphResponse.data);
-  res.render("users", { users: graphResponse.data.userData.value });
+  res.render("users", { users: graphResponse.data.value });
 });
 
 app.listen(config.SERVER_PORT, () =>
