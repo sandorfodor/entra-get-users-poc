@@ -21,7 +21,7 @@ function createPublicClientApplication(config) {
     },
   };
 
-  return new msal.PublicClientApplication(clientConfig);
+  return new msal.ConfidentialClientApplication(clientConfig);
 }
 
 module.exports = createPublicClientApplication;
