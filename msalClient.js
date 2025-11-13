@@ -1,6 +1,6 @@
 const msal = require("@azure/msal-node");
 
-function createPublicClientApplication(config) {
+function createConfidentialClientApplication(config) {
   const loggerOptions = {
     loggerCallback(loglevel, message, containsPii) {
       console.log(message);
@@ -24,4 +24,4 @@ function createPublicClientApplication(config) {
   return new msal.ConfidentialClientApplication(clientConfig);
 }
 
-module.exports = createPublicClientApplication;
+module.exports = createConfidentialClientApplication;

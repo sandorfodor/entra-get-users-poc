@@ -5,9 +5,11 @@ const msal = require("@azure/msal-node");
 const axios = require("axios");
 const url = require("url");
 const config = require("./config");
-const createPublicClientApplication = require("./msalClient");
+const createConfidentialClientApplication = require("./msalClient");
 
-const clientApplication = createPublicClientApplication(config.clientConfig);
+const clientApplication = createConfidentialClientApplication(
+  config.clientConfig
+);
 const app = express();
 app.use(session(config.sessionConfig));
 const requestConfig = config.clientConfig.request;
