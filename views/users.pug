@@ -3,19 +3,27 @@ doctype html
 html(lang='en')
   head
     style.
+      body {
+        font-family: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        background-image: radial-gradient(circle at 0% 0%, rgb(246, 247, 248) 0%, rgb(235, 245, 255) 100%);
+        padding: 20px;
+      }
       table {
         width: 80%;
+        border: 1px solid #777;
+        border-collapse: collapse;
       }
       tbody td, th {
         padding: 10px;
+        text-align: left;
       }
       tbody th {
         background-color: rgb(0, 97, 194);
         color: #fff;
       }
       tbody tr:nth-child(odd) {
-        background-color: #4C8BF5;
-        color: #fff;
+        background-color: #78aaff;
+        color: #000;
       }
   body
     h3 Users in tenant
