@@ -62,42 +62,86 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/redirect", async (req, res) => {
-  const tokenRequest = {
-    ...requestConfig.tokenRequest,
-    code: req.query.code,
-    state: req.query.state,
-  };
-  const authCodeResponse = {
-    nonce: req.session.nonce,
-    code: req.query.code,
-    state: req.session.state,
-  };
+  try {
+    const tokenRequest = {
+      ...requestConfig.tokenRequest,
+      code: req.query.code,
+      state: req.query.state,
+    };
+    const authCodeResponse = {
+      nonce: req.session.nonce,
+      code: req.query.code,
+      state: req.session.state,
+    };
 
-  const response = await clientApplication.acquireTokenByCode(
-    tokenRequest,
-    authCodeResponse
-  );
+    const response = await clientApplication.acquireTokenByCode(
+      tokenRequest,
+      authCodeResponse
+    );
 
-  console.log(
-    "Successfully acquired token using Authorization Code.",
-    JSON.stringify(response)
-  );
+    console.log(
+      "Successfully acquired token using Authorization Code.",
+      JSON.stringify(response)
+    );
 
-  const options = {
-    headers: {
-      Authorization: `Bearer ${response.accessToken}`,
-    },
-  };
+    const options = {
+      headers: {
+        Authorization: `Bearer ${response.accessToken}`,
+      },
+    };
 
-  console.log("request made to web API at: " + new Date().toString());
+    console.log("request made to web API at: " + new Date().toString());
 
-  const graphResponse = await axios.get(
-    config.clientConfig.resourceApi.endpoint,
-    options
-  );
+    const graphResponse = await axios.get(
+      config.clientConfig.resourceApi.endpoint,
+      options
+    );
 
-  console.log("GRAPH RESPONSE", graphResponse.data);
-  res.render("users", { users: graphResponse.data.value });
+    console.log("GRAPH RESPONSE", graphResponse.data);
+    res.render("users", {
+      users: graphResponse.data.value,
+      accessToken: response.accessToken,
+    });
+  } catch (err) {
+    console.log("redirect error", err);
+    res.render("redirect_error", { error: JSON.stringify(err) });
+  }
+});
+
+app.get("/update_user", async (req, res) => {
+  try {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${req.query.accessToken}`,
+      },
+    };
+
+    console.log("request made to web API at: " + new Date().toString());
+
+    const patchResponse = await axios.patch(
+      `${config.clientConfig.resourceApi.endpoint}/${req.query.userId}`,
+      {
+        displayName:
+          "Test user - " +
+          Math.floor(Math.random() * (100 - 0 + 1) + 0).toString(),
+      },
+      options
+    );
+
+    console.log("PATCH RESPONSE", patchResponse.data);
+
+    const graphResponse = await axios.get(
+      config.clientConfig.resourceApi.endpoint,
+      options
+    );
+    res.render("users", {
+      users: graphResponse.data.value,
+      accessToken: req.query.accessToken,
+    });
+  } catch (err) {
+    console.log("redirect error", err);
+    res.render("redirect_error", { error: JSON.stringify(err) });
+  }
 });
 
 app.listen(config.SERVER_PORT, () =>

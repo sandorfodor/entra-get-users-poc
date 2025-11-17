@@ -25,6 +25,19 @@ html(lang='en')
         background-color: #78aaff;
         color: #000;
       }
+      button {
+        background-color: #4C8BF5;
+        color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        border-color: rgb(0, 107, 214);
+        cursor: pointer;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: rgb(0, 97, 194);
+        border-color: rgb(0, 77, 153);
+      }
   body
     h3 Users in tenant
     table.table.table-striped
@@ -38,3 +51,9 @@ html(lang='en')
           td= u.id
           td= u.displayName
           td= u.mail
+
+    p
+    form(role='form' method='GET' action='/update_user')
+        input(type="hidden", name="accessToken", value=accessToken)
+        input(type="hidden", name="userId", value="2331fe89-6498-41f1-9b54-a09db997e4e7")
+        button.btn.btn-primary(type="submit", name="submit") Update "Test" user >
