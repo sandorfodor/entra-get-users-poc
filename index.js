@@ -140,7 +140,7 @@ app.get("/update_user", async (req, res) => {
     });
   } catch (err) {
     console.log("redirect error", err);
-    res.render("redirect_error", { error: JSON.stringify(err) });
+    res.render("redirect_error", { error: JSON.stringify(err, undefined, 2) });
   }
 });
 

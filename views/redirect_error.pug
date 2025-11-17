@@ -24,9 +24,19 @@ html(lang='en')
       h3 {
         color: rgb(15, 18, 20);
       }
+      pre.error {
+        border: 2px solid red;
+        border-radius: 5px;
+        padding: 15px;
+        white-space: pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+      }
   body
     h3 An error occured
-    p #{error}
+    pre(class="error") #{error}
     form(role='form' method='GET' action='/')
         button.btn.btn-primary(type="submit", name="submit") Back to Home >
     
