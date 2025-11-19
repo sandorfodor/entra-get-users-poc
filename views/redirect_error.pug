@@ -39,4 +39,8 @@ html(lang='en')
     pre(class="error") #{error}
     form(role='form' method='GET' action='/')
         button.btn.btn-primary(type="submit", name="submit") Back to Home >
+    p
+    form(role='form' method='GET' action='/redirect')
+        input(type="hidden", name="accessToken", value=accessToken)
+        button.btn.btn-primary(type="submit", name="submit") Back to Users >
     
