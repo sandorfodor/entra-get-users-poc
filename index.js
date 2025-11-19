@@ -104,7 +104,11 @@ app.get("/redirect", async (req, res) => {
     });
   } catch (err) {
     console.log("redirect error", err);
-    res.render("redirect_error", { error: JSON.stringify(err) });
+    if (err.errorCode && err.errorCode === "request_cannot_be_made") {
+      res.redirect("/");
+    } else {
+      res.render("redirect_error", { error: JSON.stringify(err) });
+    }
   }
 });
 
